@@ -70,9 +70,6 @@ microseconds when parsing, do not link to them for generic purpose packages.
 %patch0 -p1
 # workaround for #877567 - Very weird bug gzip decompression bug in "recent" libxml2 versions
 %patch1 -p1 -b .do-not-check-crc
-%if 0%{?fedora} > 25
-%patch2 -p1
-%endif
 
 %build
 
@@ -148,6 +145,7 @@ rm -fr %{buildroot}
 * Mon Dec 25 2017 Dan Muey <dan@cpanel.net> - 2.9.7-4
 - EA-7043: Update from v2.9.4 to v2.9.7
 - fixed %setup so that we do not need to modify tarball (EA-6094)
+- remove unreferenced 2.9.4-remove-pyverify_fd patch
 
 * Mon May 8 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 2.9.4-3
 - Initial import to EasyApache 4
