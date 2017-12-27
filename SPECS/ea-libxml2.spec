@@ -21,6 +21,7 @@ BuildRequires: xz-devel
 URL: http://xmlsoft.org/
 Patch0: libxml2-multilib.patch
 Patch1: libxml2-2.9.0-do-not-check-crc.patch
+Provides: libxml2
 
 %description
 This library allows to manipulate XML files. It includes support
@@ -146,6 +147,7 @@ rm -fr %{buildroot}
 - EA-7043: Update from v2.9.4 to v2.9.7
 - fixed %setup so that we do not need to modify tarball (EA-6094)
 - remove unreferenced 2.9.4-remove-pyverify_fd patch
+- Add Provides of libxml2
 
 * Mon May 8 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 2.9.4-3
 - Initial import to EasyApache 4
