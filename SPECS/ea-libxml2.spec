@@ -6,9 +6,9 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.9.4
+Version: 2.9.7
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 3
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -21,6 +21,7 @@ BuildRequires: xz-devel
 URL: http://xmlsoft.org/
 Patch0: libxml2-multilib.patch
 Patch1: libxml2-2.9.0-do-not-check-crc.patch
+Provides: libxml2
 
 %description
 This library allows to manipulate XML files. It includes support
@@ -66,13 +67,10 @@ microseconds when parsing, do not link to them for generic purpose packages.
 %dump
 
 %prep
-%setup -q
+%setup -n libxml2-%{version}
 %patch0 -p1
 # workaround for #877567 - Very weird bug gzip decompression bug in "recent" libxml2 versions
 %patch1 -p1 -b .do-not-check-crc
-%if 0%{?fedora} > 25
-%patch2 -p1
-%endif
 
 %build
 
@@ -145,6 +143,12 @@ rm -fr %{buildroot}
 %{_libdir}/*a
 
 %changelog
+* Mon Dec 25 2017 Dan Muey <dan@cpanel.net> - 2.9.7-4
+- EA-7043: Update from v2.9.4 to v2.9.7
+- fixed %setup so that we do not need to modify tarball (EA-6094)
+- remove unreferenced 2.9.4-remove-pyverify_fd patch
+- Add Provides of libxml2
+
 * Mon May 8 2017 Jacob Perkins <jacob.perkins@cpanel.net> - 2.9.4-3
 - Initial import to EasyApache 4
 
