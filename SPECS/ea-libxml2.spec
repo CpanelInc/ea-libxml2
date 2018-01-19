@@ -8,7 +8,7 @@ Summary: Library providing XML and HTML support
 Name: ea-libxml2
 Version: 2.9.7
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -21,7 +21,6 @@ BuildRequires: xz-devel
 URL: http://xmlsoft.org/
 Patch0: libxml2-multilib.patch
 Patch1: libxml2-2.9.0-do-not-check-crc.patch
-Provides: libxml2
 
 %description
 This library allows to manipulate XML files. It includes support
@@ -143,7 +142,10 @@ rm -fr %{buildroot}
 %{_libdir}/*a
 
 %changelog
-* Mon Dec 25 2017 Dan Muey <dan@cpanel.net> - 2.9.7-4
+* Fri Jan 19 2018 Cory McIntire <cory@cpanel.net> - 2.9.7-2
+- EA-7145: Remove incorrect Provides for libxml2
+
+* Mon Dec 25 2017 Dan Muey <dan@cpanel.net> - 2.9.7-1
 - EA-7043: Update from v2.9.4 to v2.9.7
 - fixed %setup so that we do not need to modify tarball (EA-6094)
 - remove unreferenced 2.9.4-remove-pyverify_fd patch
