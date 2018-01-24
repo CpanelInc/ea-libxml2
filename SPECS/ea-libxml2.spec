@@ -83,6 +83,10 @@ rm -fr %{buildroot}
 
 make install DESTDIR=%{buildroot}
 
+%if 0%{?_licensedir:1}
+mkdir -p %{buildroot}/%{_licensedir}
+%endif
+
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.la
@@ -104,6 +108,9 @@ rm -fr %{buildroot}
 %files
 %defattr(-, root, root)
 /opt/cpanel/ea-libxml2
+%if 0%{?_licensedir:1}
+%dir %{_licensedir}
+%endif
 
 %{!?_licensedir:%global license %%doc}
 %license Copyright
@@ -144,7 +151,7 @@ rm -fr %{buildroot}
 
 %changelog
 * Tue Jan 23 2018 Dan Muey <dan@cpanel.net> - 2.9.7-3
-- EA-7135: Add root path to %files
+- EA-7135: Add root path to %files and Ensure ownership of _licensedir if it is set
 
 * Fri Jan 19 2018 Cory McIntire <cory@cpanel.net> - 2.9.7-2
 - EA-7145: Remove incorrect Provides for libxml2
