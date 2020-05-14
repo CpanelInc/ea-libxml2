@@ -8,7 +8,7 @@ Summary: Library providing XML and HTML support
 Name: ea-libxml2
 Version: 2.9.7
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 3
+%define release_prefix 4
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -150,6 +150,9 @@ rm -fr %{buildroot}
 %{_libdir}/*a
 
 %changelog
+* Thu May 14 2020 Julian Brown <julian.brown@cpanel.net> - 2.9.7-4
+- ZC-6808: Build on CentOS8
+
 * Tue Jan 23 2018 Dan Muey <dan@cpanel.net> - 2.9.7-3
 - EA-7135: Add root path to %files and Ensure ownership of _licensedir if it is set
 
