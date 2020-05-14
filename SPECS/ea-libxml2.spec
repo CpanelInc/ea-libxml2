@@ -14,13 +14,23 @@ License: MIT
 Group: Development/Libraries
 Source: ftp://xmlsoft.org/libxml2/libxml2-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: python-devel
 BuildRequires: zlib-devel
 BuildRequires: pkgconfig
 BuildRequires: xz-devel
 URL: http://xmlsoft.org/
 Patch0: libxml2-multilib.patch
 Patch1: libxml2-2.9.0-do-not-check-crc.patch
+
+%if 0%{?rhel} > 7
+BuildRequires: python36
+BuildRequires: python36-devel
+
+BuildRequires: libnghttp2
+Requires: libnghttp2
+%else
+BuildRequires: python
+BuildRequires: python-devel
+%endif
 
 %description
 This library allows to manipulate XML files. It includes support
