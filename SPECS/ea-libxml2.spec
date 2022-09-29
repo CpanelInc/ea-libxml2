@@ -8,7 +8,7 @@ Summary: Library providing XML and HTML support
 Name: ea-libxml2
 Version: 2.9.7
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 4
+%define release_prefix 5
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -22,8 +22,14 @@ Patch0: libxml2-multilib.patch
 Patch1: libxml2-2.9.0-do-not-check-crc.patch
 
 %if 0%{?rhel} > 7
+    %if 0%{?rhel} == 8
 BuildRequires: python36
 BuildRequires: python36-devel
+    %endif
+    %if 0%{?rhel} == 9
+BuildRequires: python3
+BuildRequires: python3-devel
+    %endif
 
 BuildRequires: libnghttp2
 Requires: libnghttp2
@@ -160,6 +166,9 @@ rm -fr %{buildroot}
 %{_libdir}/*a
 
 %changelog
+* Thu Sep 29 2022 Julian Brown <julian.brown@cpanel.net> - 2.9.7-5
+- ZC-10009: Add changes so that it builds on AlmaLinux 9
+
 * Thu May 14 2020 Julian Brown <julian.brown@cpanel.net> - 2.9.7-4
 - ZC-6808: Build on CentOS8
 
