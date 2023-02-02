@@ -1,0 +1,62 @@
+#!/usr/local/cpanel/3rdparty/bin/perl
+# cpanel - find-latest-version                  Copyright(c) 2019 cPanel, L.L.C.
+#                                                           All rights Reserved.
+# copyright@cpanel.net                                         http://cpanel.net
+# This code is subject to the cPanel license. Unauthorized copying is prohibited
+
+package ea_libxml2::find_latest_version;
+
+use strict;
+use warnings;
+
+use Cpanel::JSON::XS;
+
+use lib "../ea-tools/lib/ea4_tool";    # assumes ea-tools is checked out next to this repo
+use ea4_tool::util ();
+
+
+
+
+
+###############
+#### helpers ##
+###############
+
+sub _get_required {
+    my ($http) = @_;
+
+    my ( $version, $url, $name );
+
+    my $res = $http->get("https://gitlab.gnome.org/api/v4/projects/1665/releases");
+
+    my $tag_refs = Cpanel::JSON::Load( $res->content );
+    my $first_tag_name = $tag_refs->[0]->{'tag_name'};
+    my $tag = $first_tag_name;
+
+
+
+    die "Cannot find latest version" if !defined $tag;
+
+    $name    = $tag;
+    $version = substr( $name, 1);
+    $url = "https://download.gnome.org/sources/libxml2/2.10/libxml2-$version.tar.xz";
+    $name = "libxml2-$version.tar.xz";
+
+    return ( $version, $url, $name );
+}
+
+sub _add_sum {
+    my ( $http, $hr ) = @_;
+
+# I could not find a way to get the sum
+
+    return;
+}
+
+ea4_tool::util::find_latest_version( \&_get_required, \&_add_sum ) if !caller();
+
+__END__
+
+=encoding utf-8
+
+=head1 README
