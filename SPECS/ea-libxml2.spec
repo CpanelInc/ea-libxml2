@@ -6,7 +6,7 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.10.4
+Version: 2.11.1
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
 %define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
@@ -137,7 +137,7 @@ rm -fr %{buildroot}
 
 %{!?_licensedir:%global license %%doc}
 %license Copyright
-%doc NEWS README.md TODO
+%doc NEWS README.md
 %doc %{_mandir}/man1/xmllint.1*
 %doc %{_mandir}/man1/xmlcatalog.1*
 
@@ -168,6 +168,14 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Mon May 01 2023 Cory McIntire <cory@cpanel.net> - 2.11.1-1
+- EA-11388: Update ea-libxml2 from v2.10.4 to v2.11.1
+    - Security Fixes
+    - Fix use-after-free in xmlParseContentInternal() (David Kilzer)
+    - xmllint: Fix use-after-free with --maxmem
+    - parser: Fix OOB read when formatting error message
+    - entities: Rework entity amplification checks
+
 * Wed Apr 12 2023 Cory McIntire <cory@cpanel.net> - 2.10.4-1
 - EA-11352: Update ea-libxml2 from v2.10.3 to v2.10.4
 - [CVE-2023-29469] Hashing of empty dict strings isn't deterministic
