@@ -23,7 +23,7 @@ sub _get_required {
 
     my $res = $http->get("https://gitlab.gnome.org/api/v4/projects/1665/releases");
 
-    my $tag_refs       = ea4_tool::util::json2ref( $res->content );
+    my $tag_refs       = ea4_tool::util::json2ref( $res->{content} );
     my $first_tag_name = $tag_refs->[0]->{'tag_name'};
     my $tag            = $first_tag_name;
 
