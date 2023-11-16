@@ -6,7 +6,7 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.11.5
+Version: 2.12.0
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
 %define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
@@ -34,6 +34,10 @@ Requires: libnghttp2
 %else
 BuildRequires: python
 BuildRequires: python-devel
+BuildRequires: devtoolset-8-toolchain
+BuildRequires: devtoolset-8-libatomic-devel
+BuildRequires: devtoolset-8-gcc
+BuildRequires: devtoolset-8-gcc-c++
 %endif
 
 %description
@@ -94,7 +98,11 @@ microseconds when parsing, do not link to them for generic purpose packages.
 
 %build
 
-%configure
+%if 0%{?rhel} < 8
+. /opt/rh/devtoolset-8/enable
+%endif
+
+%configure --with-legacy
 
 make %{_smp_mflags}
 
@@ -168,6 +176,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Thu Nov 16 2023 Cory McIntire <cory@cpanel.net> - 2.12.0-1
+- EA-11815: Update ea-libxml2 from v2.11.5 to v2.12.0
+
 * Mon Aug 14 2023 Cory McIntire <cory@cpanel.net> - 2.11.5-1
 - EA-11608: Update ea-libxml2 from v2.11.4 to v2.11.5
 
