@@ -6,14 +6,14 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.12.0
+Version: 2.11.5
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
-Source: https://download.gnome.org/sources/libxml2/2.10/libxml2-%{version}.tar.xz
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Source: https://download.gnome.org/sources/libxml2/2.10/libxml2-2.11.5.tar.xz
+BuildRoot: %{_tmppath}/%{name}-2.11.5-root
 BuildRequires: zlib-devel
 BuildRequires: pkgconfig
 BuildRequires: xz-devel
@@ -34,10 +34,6 @@ Requires: libnghttp2
 %else
 BuildRequires: python
 BuildRequires: python-devel
-BuildRequires: devtoolset-8-toolchain
-BuildRequires: devtoolset-8-libatomic-devel
-BuildRequires: devtoolset-8-gcc
-BuildRequires: devtoolset-8-gcc-c++
 %endif
 
 %description
@@ -54,7 +50,7 @@ URI library.
 %package devel
 Summary: Libraries, includes, etc. to develop XML and HTML applications
 Group: Development/Libraries
-Requires: ea-libxml2 = %{version}-%{release}
+Requires: ea-libxml2 = 2.11.5-%{release}
 Requires: zlib-devel
 Requires: xz-devel
 Requires: pkgconfig
@@ -75,7 +71,7 @@ URI library.
 %package static
 Summary: Static library for libxml2
 Group: Development/Libraries
-Requires: ea-libxml2 = %{version}-%{release}
+Requires: ea-libxml2 = 2.11.5-%{release}
 
 %description static
 Static library for libxml2 provided for specific uses or shaving a few
@@ -84,13 +80,13 @@ microseconds when parsing, do not link to them for generic purpose packages.
 %dump
 
 %prep
-%setup -n libxml2-%{version}
+%setup -n libxml2-2.11.5
 # workaround for #877567 - Very weird bug gzip decompression bug in "recent" libxml2 versions
 
-# tar cvf libxml2-%{version}.tar.gz libxml2-%{version}
+# tar cvf libxml2-2.11.5.tar.gz libxml2-2.11.5
 
 # %setup -T -a 0
-# tar -zxvvf libxml2-%{version}.tar.gz --strip-components 1 -C libxml2-%{version}
+# tar -zxvvf libxml2-2.11.5.tar.gz --strip-components 1 -C libxml2-2.11.5
 
 # %patch0 -p1
 # workaround for #877567 - Very weird bug gzip decompression bug in "recent" libxml2 versions
@@ -98,11 +94,7 @@ microseconds when parsing, do not link to them for generic purpose packages.
 
 %build
 
-%if 0%{?rhel} < 8
-. /opt/rh/devtoolset-8/enable
-%endif
-
-%configure --with-legacy
+%configure
 
 make %{_smp_mflags}
 
@@ -120,8 +112,8 @@ mkdir -p %{buildroot}/%{_licensedir}
 rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.la
-rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
-rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-2.11.5/*
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-2.11.5/*
 (cd doc/examples ; make clean ; rm -rf .deps Makefile)
 gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 
@@ -176,8 +168,8 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
-* Thu Nov 16 2023 Cory McIntire <cory@cpanel.net> - 2.12.0-1
-- EA-11815: Update ea-libxml2 from v2.11.5 to v2.12.0
+* Tue Nov 21 2023 Cory McIntire <cory@cpanel.net> - 2.11.5-2
+- EA-11822: Rolling “ea-libxml2” back to “04c4b9a40fbd4c0f07e1b66ab71f24a66aa7f90d”: libxml2 upstream updated to 2.12 and changed a lot of .h files, apache/php need patches
 
 * Mon Aug 14 2023 Cory McIntire <cory@cpanel.net> - 2.11.5-1
 - EA-11608: Update ea-libxml2 from v2.11.4 to v2.11.5
