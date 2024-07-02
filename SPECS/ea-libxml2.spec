@@ -114,7 +114,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.la
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
-(cd doc/examples ; make clean ; rm -rf .deps Makefile)
+## removed due to doc/examples no longer shipped in tarball
+## EA-12247
+# (cd doc/examples ; make clean ; rm -rf .deps Makefile)
 gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 
 # %check
@@ -151,8 +153,6 @@ rm -fr %{buildroot}
 %doc %{_mandir}/man1/xml2-config.1*
 %doc NEWS README.md Copyright
 %doc doc/*.html
-%doc doc/tutorial
-%doc doc/examples
 # %doc %dir %{_datadir}/gtk-doc/html/libxml2
 
 %{_libdir}/lib*.so
