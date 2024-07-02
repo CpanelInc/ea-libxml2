@@ -6,7 +6,7 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.12.6
+Version: 2.13.1
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
 %define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
@@ -114,7 +114,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.la
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
-(cd doc/examples ; make clean ; rm -rf .deps Makefile)
+## removed due to doc/examples no longer shipped in tarball
+## EA-12247
+# (cd doc/examples ; make clean ; rm -rf .deps Makefile)
 gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 
 # %check
@@ -151,8 +153,6 @@ rm -fr %{buildroot}
 %doc %{_mandir}/man1/xml2-config.1*
 %doc NEWS README.md Copyright
 %doc doc/*.html
-%doc doc/tutorial
-%doc doc/examples
 # %doc %dir %{_datadir}/gtk-doc/html/libxml2
 
 %{_libdir}/lib*.so
@@ -168,6 +168,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Tue Jul 02 2024 Cory McIntire <cory@cpanel.net> - 2.13.1-1
+- EA-12247: Update ea-libxml2 from v2.12.6 to v2.13.1
+
 * Fri Mar 15 2024 Cory McIntire <cory@cpanel.net> - 2.12.6-1
 - EA-12022: Update ea-libxml2 from v2.12.4 to v2.12.6
 - [CVE-2024-25062] xmlreader: Don't expand XIncludes when backtracking
