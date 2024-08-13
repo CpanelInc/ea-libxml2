@@ -6,9 +6,9 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.12.6
+Version: 2.13.3
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 2
+%define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -168,6 +168,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Tue Aug 06 2024 Cory McIntire <cory@cpanel.net> - 2.13.3-1
+- EA-12315: Update ea-libxml2 from v2.12.6 to v2.13.3
+
 * Tue Jul 02 2024 Cory McIntire <cory@cpanel.net> - 2.12.6-2
 - EA-12252: Rolling “ea-libxml2” back to “0e1f4ea2052c4cb2643ebd9d51394223643c6fc2”: breaks scl-phps
 
