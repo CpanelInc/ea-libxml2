@@ -8,7 +8,7 @@ Summary: Library providing XML and HTML support
 Name: ea-libxml2
 Version: 2.13.3
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -114,9 +114,8 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/python*/site-packages/*.la
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
-# Examples Directory was seemingly removed.
-# (cd doc/examples ; make clean ; rm -rf .deps Makefile)
-# gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
+(cd doc/examples ; make clean ; rm -rf .deps Makefile)
+gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 
 # %check
 # disabled due to broken test in docs/example
@@ -151,9 +150,9 @@ rm -fr %{buildroot}
 
 %doc %{_mandir}/man1/xml2-config.1*
 %doc NEWS README.md Copyright
-# %doc doc/*.html
-# %doc doc/tutorial
-# %doc doc/examples
+%doc doc/*.html
+%doc doc/tutorial
+%doc doc/examples
 # %doc %dir %{_datadir}/gtk-doc/html/libxml2
 
 %{_libdir}/lib*.so
@@ -169,6 +168,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Tue Aug 13 2024 Cory McIntire <cory@cpanel.net> - 2.13.3-2
+- EA-12336: Rolling “ea-libxml2” back to “f77d3db2ad0957accee0eda34f1bb8bc66a9bb5c”: breaks older php-pears
+
 * Tue Aug 06 2024 Cory McIntire <cory@cpanel.net> - 2.13.3-1
 - EA-12315: Update ea-libxml2 from v2.12.6 to v2.13.3
 
