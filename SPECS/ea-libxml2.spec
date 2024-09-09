@@ -123,8 +123,8 @@ gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
 # disabled due to broken test in docs/example
 # make runtests
 
-mkdir %{buildroot}/opt/cpanel/ea-libxml2/doc
-cp -R example %{buildroot}/opt/cpanel/ea-libxml2/doc
+mkdir -p %{buildroot}/opt/cpanel/ea-libxml2-devel/doc
+cp -R example %{buildroot}/opt/cpanel/ea-libxml2-devel/doc
 
 %clean
 rm -fr %{buildroot}
@@ -156,6 +156,7 @@ rm -fr %{buildroot}
 %doc %{_mandir}/man1/xml2-config.1*
 %doc NEWS README.md Copyright
 %doc doc/*.html
+/opt/cpanel/ea-libxml2-devel/doc
 
 %{_libdir}/lib*.so
 # %{_libdir}/*.sh
