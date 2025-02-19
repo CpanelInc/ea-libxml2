@@ -173,6 +173,8 @@ rm -fr %{buildroot}
 %changelog
 * Tue Feb 18 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.6-1
 - EA-12713: Update ea-libxml2 from v2.13.5 to v2.13.6
+  - [CVE-2025-24928] Fix stack-buffer-overflow in xmlSnprintfElements
+  - [CVE-2024-56171] Fix use-after-free after xmlSchemaItemListAdd
 
 * Fri Nov 15 2024 Cory McIntire <cory@cpanel.net> - 2.13.5-1
 - EA-12551: Update ea-libxml2 from v2.13.4 to v2.13.5
