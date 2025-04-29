@@ -6,7 +6,7 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.13.6
+Version: 2.13.8
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
 %define release_prefix 1
 Release: %{release_prefix}%{?dist}.cpanel
@@ -171,6 +171,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Thu Apr 17 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.8-1
+- EA-12821: Update ea-libxml2 from v2.13.6 to v2.13.8
+
 * Tue Feb 18 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.6-1
 - EA-12713: Update ea-libxml2 from v2.13.5 to v2.13.6
   - [CVE-2025-24928] Fix stack-buffer-overflow in xmlSnprintfElements
