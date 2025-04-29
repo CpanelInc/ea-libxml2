@@ -173,6 +173,8 @@ rm -fr %{buildroot}
 %changelog
 * Thu Apr 17 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.8-1
 - EA-12821: Update ea-libxml2 from v2.13.6 to v2.13.8
+- [CVE-2025-32415] schemas: Fix heap buffer overflow in xmlSchemaIDCFillNodeTables
+- [CVE-2025-32414] python: Read at most len/4 characters. (Maks Verver)
 
 * Tue Feb 18 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.6-1
 - EA-12713: Update ea-libxml2 from v2.13.5 to v2.13.6
