@@ -24,7 +24,7 @@ URL: http://xmlsoft.org/
 BuildRequires: python36
 BuildRequires: python36-devel
     %endif
-    %if 0%{?rhel} == 9
+    %if 0%{?rhel} >= 9
 BuildRequires: python3
 BuildRequires: python3-devel
     %endif
