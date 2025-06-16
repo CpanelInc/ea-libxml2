@@ -12,7 +12,7 @@ Version: 2.13.8
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
-Source: https://download.gnome.org/sources/libxml2/2.10/libxml2-%{version}.tar.xz
+Source: https://download.gnome.org/sources/libxml2/2.14/libxml2-%{version}.tar.xz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: zlib-devel
 BuildRequires: pkgconfig
