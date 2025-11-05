@@ -10,7 +10,7 @@ Version: 2.15.1
 %define shortver %(echo %{version} | awk -F. '{print $1"."$2}')
 
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
@@ -97,6 +97,11 @@ microseconds when parsing, do not link to them for generic purpose packages.
 
 %build
 
+export LDFLAGS="$LDFLAGS \
+    -Wl,--enable-new-dtags \
+    -Wl,-rpath,/opt/cpanel/ea-libxml2/lib \
+    -Wl,-rpath,/opt/cpanel/ea-libxml2/lib64"
+
 %configure
 
 make %{_smp_mflags}
@@ -119,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
 
 (cd example ; make clean ; rm -rf .deps Makefile)
+ln -s %{_libdir}/libxml2.so.16 $RPM_BUILD_ROOT%{_libdir}/libxml2.so.2
 
 # %check
 # disabled due to broken test in docs/example
@@ -159,6 +165,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Wed Nov 05 2025 Chris Castillo <chris.castillo@webpros.com> - 2.15.1-2
+- EA4-136: Fix libxml2 library linking issues
+
 * Tue Oct 21 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.15.1-1
 - EA-13221: Update ea-libxml2 from v2.15.0 to v2.15.1
 
