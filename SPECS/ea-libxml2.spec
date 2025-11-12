@@ -6,25 +6,28 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.13.8
+Version: 2.15.1
+%define shortver %(echo %{version} | awk -F. '{print $1"."$2}')
+
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
-%define release_prefix 1
+%define release_prefix 2
 Release: %{release_prefix}%{?dist}.cpanel
 License: MIT
 Group: Development/Libraries
-Source: https://download.gnome.org/sources/libxml2/2.14/libxml2-%{version}.tar.xz
+Source: https://download.gnome.org/sources/libxml2/%{shortver}/libxml2-%{version}.tar.xz
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: zlib-devel
 BuildRequires: pkgconfig
 BuildRequires: xz-devel
+Provides: libxml2.so.16()(64bit)
 URL: http://xmlsoft.org/
 
-%if 0%{?rhel} > 7
-    %if 0%{?rhel} == 8
+%if %{?rhel} > 7
+    %if %{?rhel} == 8
 BuildRequires: python36
 BuildRequires: python36-devel
     %endif
-    %if 0%{?rhel} >= 9
+    %if %{?rhel} >= 9
 BuildRequires: python3
 BuildRequires: python3-devel
     %endif
@@ -94,6 +97,11 @@ microseconds when parsing, do not link to them for generic purpose packages.
 
 %build
 
+export LDFLAGS="$LDFLAGS \
+    -Wl,--enable-new-dtags \
+    -Wl,-rpath,/opt/cpanel/ea-libxml2/lib \
+    -Wl,-rpath,/opt/cpanel/ea-libxml2/lib64"
+
 %configure
 
 make %{_smp_mflags}
@@ -116,15 +124,11 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-%{version}/*
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/libxml2-python-%{version}/*
 
 (cd example ; make clean ; rm -rf .deps Makefile)
-gzip -9 -c doc/libxml2-api.xml > doc/libxml2-api.xml.gz
-
+ln -s %{_libdir}/libxml2.so.16 $RPM_BUILD_ROOT%{_libdir}/libxml2.so.2
 
 # %check
 # disabled due to broken test in docs/example
 # make runtests
-
-mkdir -p %{buildroot}/opt/cpanel/ea-libxml2-devel/doc
-cp -R example %{buildroot}/opt/cpanel/ea-libxml2-devel/doc
 
 %clean
 rm -fr %{buildroot}
@@ -142,27 +146,17 @@ rm -fr %{buildroot}
 
 %{!?_licensedir:%global license %%doc}
 %license Copyright
-%doc NEWS README.md
-%doc %{_mandir}/man1/xmllint.1*
-%doc %{_mandir}/man1/xmlcatalog.1*
 
-%{_libdir}/lib*.so.*
 %{_bindir}/xmllint
 %{_bindir}/xmlcatalog
 
 %files devel
 %defattr(-, root, root)
 
-%doc %{_mandir}/man1/xml2-config.1*
-%doc NEWS README.md Copyright
-%doc doc/*.html
-/opt/cpanel/ea-libxml2-devel/doc
-
-%{_libdir}/lib*.so
+%{_libdir}/lib*.so*
 # %{_libdir}/*.sh
 %{_includedir}/*
 %{_bindir}/xml2-config
-%{_datadir}/aclocal/libxml.m4
 %{_libdir}/pkgconfig/libxml-2.0.pc
 %{_libdir}/cmake/libxml2/libxml2-config.cmake
 
@@ -171,6 +165,15 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Wed Nov 05 2025 Chris Castillo <chris.castillo@webpros.com> - 2.15.1-2
+- EA4-136: Fix libxml2 library linking issues
+
+* Tue Oct 21 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.15.1-1
+- EA-13221: Update ea-libxml2 from v2.15.0 to v2.15.1
+
+* Wed Sep 24 2025 Chris Castillo <chris.castillo@webpros.com> - 2.15.0-1
+- EA-13114: Update ea-libxml2 from v2.13.8 to v2.15.0
+
 * Thu Apr 17 2025 Cory McIntire <cory.mcintire@webpros.com> - 2.13.8-1
 - EA-12821: Update ea-libxml2 from v2.13.6 to v2.13.8
 - [CVE-2025-32415] schemas: Fix heap buffer overflow in xmlSchemaIDCFillNodeTables
