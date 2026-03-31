@@ -32,8 +32,10 @@ sub _get_required {
 
     $name    = $tag;
     $version = substr( $name, 1 );
-    $url     = $first_tag->{'assets'}{'links'}[0]{'direct_asset_url'};
-    $name    = "libxml2-$version.tar.xz";
+    my ($major, $minor) = split( /\./, $version );
+    my $shortver = "$major.$minor";
+    $url  = "https://download.gnome.org/sources/libxml2/$shortver/libxml2-$version.tar.xz";
+    $name = "libxml2-$version.tar.xz";
 
     return ( $version, $url, $name );
 }
