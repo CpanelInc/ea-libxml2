@@ -6,7 +6,7 @@ Prefix: /opt/cpanel/ea-libxml2
 
 Summary: Library providing XML and HTML support
 Name: ea-libxml2
-Version: 2.15.2
+Version: 2.15.3
 %define shortver %(echo %{version} | awk -F. '{print $1"."$2}')
 
 # Doing release_prefix this way for Release allows for OBS-proof versioning, See EA-4544 for more details
@@ -165,6 +165,9 @@ rm -fr %{buildroot}
 # %{_libdir}/*a
 
 %changelog
+* Thu Apr 16 2026 EA4 Update Bot <cory.mcintire@webpros.com> - 2.15.3-1
+- EA-13410: Update ea-libxml2 from v2.15.2 to v2.15.3
+
 * Thu Mar 26 2026 EA4 Update Bot <cory.mcintire@webpros.com> - 2.15.2-1
 - EA-13392: Update ea-libxml2 from v2.15.1 to v2.15.2
 
